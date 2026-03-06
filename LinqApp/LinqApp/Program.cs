@@ -64,3 +64,25 @@ if (st != null)
     Console.WriteLine(st);
 else
     Console.WriteLine("нет таких");
+
+
+Console.WriteLine("**************************************");
+
+
+var gr1 = Group.GetGroups();
+var st1 = Student.GetStudents();
+
+
+var res = st1
+    .Join(gr1, s => s.GroupId, g => g.Id, (s, g) => new { s.Name, s.Age, Group = g.Name, g.Faculty})
+    .GroupBy(g=>g.Group).Select(f=>new { Group = f.Key, Count =  f.Count() });
+
+var res2 = gr1
+    .Join(st1, g => g.Id, s => s.GroupId, (g, s) => new { s.Name, s.Age, Group = g.Name, g.Faculty })
+    .GroupBy(g => g.Group).Select(f => new { Group = f.Key, Count = f.Count() });
+
+
+foreach (var r in res2)
+{
+    Console.WriteLine(r);
+}
